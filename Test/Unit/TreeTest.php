@@ -4,6 +4,7 @@ namespace Test\Unit;
 
 use Garden\Tree;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class TreeTest extends TestCase {
 
@@ -12,14 +13,19 @@ class TreeTest extends TestCase {
      * Экземпляр класса Tree
      */
     private Tree $object;
-
+    /**
+     * @var int
+     * Регистрационный номер дерева
+     */
+    private static int $i = 7;
     /**
      * @return void
      * Метод вызывается перед каждым тестом.
      */
     protected function setUp(): void
     {
-        $this->object = new Tree(1,'apple', 43);
+        self::$i++;
+        $this->object = new Tree(static::$i,'apple', 43);
     }
 
     /**
@@ -27,7 +33,7 @@ class TreeTest extends TestCase {
      * Тестируем соответсвенный метод класса.
      */
     public function testGetRegNumber() {
-        $this->assertEquals(1, $this->object->getRegNumber());
+        $this->assertEquals(self::$i, $this->object->getRegNumber());
     }
 
     /**
@@ -66,6 +72,23 @@ class TreeTest extends TestCase {
         $this->assertEquals(0, $this->object->getFruitCount());
     }
 
+    /**
+     * @return void
+     * @throws \ReflectionException
+     * Метод тестирует добавление регистрационного номера.
+     */
+    public function testAddRegNumber()
+    {
+        $regNumber = 789;
+        $tree = new ReflectionClass('Garden\Tree');
+        $method = $tree->getMethod('addRegNumber');
+        $method->setAccessible(true);
+        $obj = new Tree($regNumber, "apple", 45);
+        $this->assertContains($regNumber, $obj->getRegNumbers());
+
+        $this->expectException('Exception');
+        $result = $method->invoke($obj, $regNumber);
+    }
     /**
      * @return void
      * Метод вызывается после каждого теста.

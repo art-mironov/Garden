@@ -15,15 +15,19 @@ class GardenTest extends TestCase
      * Массив объектов класса Tree
      */
     private array|Tree $objects = [];
-
+    /**
+     * @var int
+     * Регистрационный номер дерева.
+     */
+    private static int $i = 0;
     /**
      * @return void
      * Метод вызывается перед каждым тестом.
      */
     protected function setUp(): void
     {
-        $this->objects[] = new Tree(1,'apple', 43);
-        $this->objects[] = new Tree(2, "pear", 15);
+        $this->objects[] = new Tree(static::$i++,'apple', 43);
+        $this->objects[] = new Tree(static::$i++, "pear", 15);
     }
 
     /**
