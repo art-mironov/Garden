@@ -1,6 +1,8 @@
 <?php
 
 namespace Garden;
+use PHPUnit\Logging\Exception;
+
 class Tree
 {
     /**
@@ -18,7 +20,11 @@ class Tree
      * Кол-во фруктов на дереве.
      */
     private int $fruitCount;
-
+    /**
+     * @var array
+     * Массив всех регистрационных номеров.
+     */
+    public static array $regNumbers = [];
     /**
      * @param int $regNumber
      * @param string $type
@@ -29,6 +35,7 @@ class Tree
         $this->regNumber = $regNumber;
         $this->type = $type;
         $this->fruitCount = $fruitCount;
+        static::addRegNumber($regNumber);
     }
 
     /**
@@ -78,5 +85,26 @@ class Tree
         $fruitCount = $this->fruitCount;
         $this->fruitCount = 0;
         return $fruitCount;
+    }
+
+    /**
+     * @param int $regNumber
+     * @return void
+     * Метод добавляет регистрационных номер в текущего дерева в массив номеров.
+     */
+    private static function addRegNumber(int $regNumber):void
+    {
+        if(in_array($regNumber, static::$regNumbers)){
+                throw new Exception("Register number is not unique");
+        }
+        static::$regNumbers[] = $regNumber;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getRegNumbers(): array
+    {
+        return self::$regNumbers;
     }
 }
