@@ -4,8 +4,23 @@
 namespace Garden;
 class Garden
 {
-    private static  array  $trees = [];
+    /**
+     * @var array|Tree
+     * Массив деревьев( объектов класса Tree) в саду.
+     */
+    private static  array|Tree $trees = [];
+    /**
+     * @var array
+     * Массив типов деревьев с саду.
+     */
     private static array $types = [];
+
+    /**
+     * @param Tree $tree
+     * @return void
+     * Метод принимает экземпляр класс Tree и добавляет его в массив деревьев,
+     * также добавляет тип дерева, если он еще не был добавлен.
+     */
     public static function addTree(Tree $tree): void
     {
         static::$trees[] = $tree;
@@ -14,15 +29,19 @@ class Garden
         }
     }
 
+    /**
+     * @return int
+     * Метод возвращает кол-во деревбев в саду.
+     */
     public static function getTreesCount(): int
     {
         return count(static::$trees);
     }
-    public static function getTrees(): array
-    {
-        return static::$trees;
-    }
 
+    /**
+     * @return array
+     * Метод возвращает вес фруктов, сортируя их по типам деревьев.
+     */
     public static function collectFruitWeights(): array
     {
         $fruitWeights = [];
@@ -35,6 +54,11 @@ class Garden
         }
         return $fruitWeights;
     }
+
+    /**
+     * @return array
+     * Метод возвращает кол-во фуктов, разделяя их по типам.
+     */
     public static function collectTreesFruits(): array
     {
         $fruits = [];
